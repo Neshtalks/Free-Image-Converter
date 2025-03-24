@@ -44,6 +44,8 @@ dark_theme = """
 # Initialize session state if it doesn't exist
 if "theme" not in st.session_state:
     st.session_state.theme = "light"
+if "uploaded_files" not in st.session_state:
+    st.session_state.uploaded_files = []
 
 # Function to toggle the theme based on the session state
 def toggle_theme():
@@ -118,6 +120,10 @@ uploaded_files = st.file_uploader(
     accept_multiple_files=True
 )
 
+# Store uploaded files in session state
+if uploaded_files:
+    st.session_state.uploaded_files = uploaded_files
+
 # Output format selection
 format_options = ["PNG", "JPEG", "JFIF", "BMP", "WEBP", "AVIF"]
 output_format = st.selectbox("🎨 Choose the output format", format_options)
@@ -125,12 +131,13 @@ output_format = st.selectbox("🎨 Choose the output format", format_options)
 # Quality slider for output images
 quality = st.slider("🛠️ Set output quality (1-100)", min_value=1, max_value=100, value=95)
 
-if uploaded_files:
+# If there are uploaded files, start the conversion process
+if st.session_state.uploaded_files:
     if st.button("✨ Convert and Download All 📸"):
         # Create a ZIP file to store all converted images
         zip_buffer = BytesIO()
         with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED, False) as zip_file:
-            for uploaded_file in uploaded_files:
+            for uploaded_file in st.session_state.uploaded_files:
                 try:
                     # Convert the image with the specified quality
                     uploaded_file_bytes = uploaded_file.getvalue()
@@ -150,6 +157,10 @@ if uploaded_files:
             file_name=f"converted_images.zip",
             mime="application/zip"
         )
+
+        # Clear the uploaded files from session state after download
+        st.session_state.uploaded_files = []
+
 else:
     st.write("📤 Please upload one or more images to convert.")
 
