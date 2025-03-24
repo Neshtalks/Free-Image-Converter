@@ -49,7 +49,7 @@ Whether you're a designer, developer, or just someone who needs quick image conv
    ```  
 4. Run the Streamlit app:  
    ```bash  
-   streamlit run app.py  
+   streamlit run Main.py  
    ```  
 5. Access the app in your browser at `http://localhost:8501`.  
 
