@@ -58,7 +58,8 @@ Whether you're a designer, developer, or just someone who needs quick image conv
 🌐 Deploying the App Online for Free  
 You can deploy this app for free using Streamlit Community Cloud or Hugging Face Spaces.  
 
-Option 1: Streamlit Community Cloud  
+Option
+ 1: Streamlit Community Cloud  
 1. Create a GitHub repository for your project (if you haven’t already).  
 2. Go to [Streamlit Community Cloud](https://share.streamlit.io/).  
 3. Sign in with your GitHub account.  

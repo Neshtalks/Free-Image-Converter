@@ -22,78 +22,74 @@ def convert_img_format(image_bytes, output_format, quality=95):
     buf.seek(0)
     return buf
 
-# Custom CSS for a modern color scheme and layout
+# Define CSS styles for light and dark themes
+light_theme = """
+<style>
+.stApp {
+    background-color: white;
+    color: black;
+}
+</style>
+"""
+
+dark_theme = """
+<style>
+.stApp {
+    background-color: black;
+    color: white;
+}
+</style>
+"""
+
+# Initialize session state if it doesn't exist
+if "theme" not in st.session_state:
+    st.session_state.theme = "light"
+
+# Function to toggle the theme based on the session state
+def toggle_theme():
+    if st.session_state.theme == "light":
+        st.session_state.theme = "dark"
+    else:
+        st.session_state.theme = "light"
+
+# Custom CSS for the floating theme toggle button in the top-right corner
 st.markdown(
     """
     <style>
-    /* Background and overall theme */
-    .stApp {
-        background-color: #1e1e1e;
-        color: #ffffff;
-        font-family: 'Arial', sans-serif;
+    .theme-toggle {
+        position: fixed;
+        top: 15px;
+        right: 20px;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        transition: background 0.3s ease-in-out;
     }
-    /* Title styling */
-    h1 {
-        color: #ffffff;
-        text-align: center;
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-    }
-    /* File uploader styling */
-    .stFileUploader > div {
-        background-color: #2d2d2d;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    /* Button styling */
-    .stButton > button {
-        background-color: #4CAF50;
-        color: #ffffff;
-        border-radius: 10px;
-        padding: 10px 20px;
-        font-size: 1rem;
-        border: none;
-        transition: background-color 0.3s ease;
-    }
-    .stButton > button:hover {
-        background-color: #45a049;
-    }
-    /* About section styling */
-    .about-section {
-        background-color: #2d2d2d;
-        border-radius: 10px;
-        padding: 20px;
-        margin-top: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .about-section h2 {
-        color: #ffffff;
-        font-size: 1.5rem;
-        margin-bottom: 10px;
-    }
-    .about-section p {
-        color: #cccccc;
-        font-size: 1rem;
-        line-height: 1.5;
-    }
-    /* Footer styling */
-    .footer {
-        text-align: center;
-        margin-top: 40px;
-        color: #777777;
-        font-size: 0.9rem;
+    .theme-toggle:hover {
+        background: rgba(0, 0, 0, 0.9);
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Add Font Awesome for icons
-st.markdown(
-    '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">',
-    unsafe_allow_html=True
-)
+# Create a toggle button in the top-right corner
+icon = "🌙" if st.session_state.theme == "light" else "🌞"
+if st.button(icon, key="toggle_theme"):
+    toggle_theme()
+
+# Apply the selected theme
+if st.session_state.theme == "dark":
+    st.markdown(dark_theme, unsafe_allow_html=True)
+else:
+    st.markdown(light_theme, unsafe_allow_html=True)
 
 # Setting up the webpage structure
 st.title("🖼️ Image Convertor")
